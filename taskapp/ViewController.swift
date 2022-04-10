@@ -133,15 +133,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)//【追加】検索
     {
         view.endEditing(true)//キーボードを閉じる
-        if let word = searchBar.text
+        if let word = searchBar.text, searchBar.text != ""
         {
             print(word)
             taskArray = try! Realm().objects(Task.self).filter("category = '\(word)'")//【追加】カテゴリー
+            print("該当するデータの数は\(taskArray.count)")
             tableView.reloadData()
         }
         else
         {
-            return
+            //taskArray = try! Realm().objects(Task.self).filter("TRUEPREDICATE")//TRUEPREDICATEを使ってもOK
+            taskArray = try! Realm().objects(Task.self)
+            print(taskArray)
+            print("すべてのデータの数は\(taskArray.count)")
+            tableView.reloadData()
         }
     }
     
